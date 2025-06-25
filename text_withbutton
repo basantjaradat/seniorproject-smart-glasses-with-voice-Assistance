@@ -1,0 +1,126 @@
+import cv2
+import numpy as np
+import urllib.request
+import pytesseract
+import time
+import os
+import pygame  # For playing the audio
+import threading
+import RPi.GPIO as GPIO
+
+# ESP32-CAM streaming URLs
+MAIN_CAM_URL = "http://192.168.88.6/cam-hi.jpg"  # Main camera
+TEXT_CAM_URL = "http://192.168.88.9/cam-hi.jpg"  # New text-reading camera
+
+# Minimum confidence threshold for detected text
+CONFIDENCE_THRESHOLD = 80
+
+# GPIO Setup
+BUTTON_TEXT_PIN = 6  # Button to trigger text reading
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(BUTTON_TEXT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+# Initialize pygame mixer for playing audio
+pygame.mixer.init()
+
+# Function to capture an image from ESP32-CAM
+def capture_image_from_cam(url):
+    try:
+        response = urllib.request.urlopen(url)
+        image_array = np.array(bytearray(response.read()), dtype=np.uint8)
+        image = cv2.imdecode(image_array, -1)
+        if image is None:
+            print("Error: Could not retrieve image from ESP32-CAM.")
+            return None
+        return image
+    except Exception as e:
+        print(f"Error fetching image from ESP32-CAM: {e}")
+        return None
+
+# Function to preprocess the image for text recognition
+def preprocess_image(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    processed_image = cv2.adaptiveThreshold(
+        blurred, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2
+    )
+    return processed_image
+
+# Function to recognize text line by line
+def recognize_text_line_by_line(image):
+    config = "--psm 6 --oem 3"
+    data = pytesseract.image_to_data(image, config=config, lang="eng", output_type=pytesseract.Output.DICT)
+    lines = []
+    current_line = []
+    last_line_num = -1
+
+    for i in range(len(data["text"])):
+        word = data["text"][i].strip()
+        confidence = int(data["conf"][i])
+        line_num = data["line_num"][i]
+
+        if word and confidence >= CONFIDENCE_THRESHOLD:
+            if line_num != last_line_num and current_line:
+                lines.append(" ".join(current_line))
+                current_line = []
+            current_line.append(word)
+            last_line_num = line_num
+
+    if current_line:
+        lines.append(" ".join(current_line))
+
+    return lines
+
+# Function to convert text lines to speech
+def speak_lines(lines):
+    for line in lines:
+        if line:
+            print(f"Reading Line: {line}")
+            try:
+                tts = gTTS(text=line, lang='en')
+                temp_filename = "temp_audio.mp3"
+                tts.save(temp_filename)
+                pygame.mixer.music.load(temp_filename)
+                pygame.mixer.music.play()
+                while pygame.mixer.music.get_busy():
+                    time.sleep(0.5)
+                pygame.mixer.music.stop()
+                pygame.mixer.quit()
+                os.remove(temp_filename)
+                pygame.mixer.init()
+            except Exception as e:
+                print(f"Error in text-to-speech conversion: {e}")
+
+# Function to handle text reading when button is pressed
+def text_reading_handler():
+    print("Button Pressed! Capturing image for text recognition...")
+    image = capture_image_from_cam(TEXT_CAM_URL)
+    if image is not None:
+        processed_image = preprocess_image(image)
+        detected_lines = recognize_text_line_by_line(processed_image)
+        if detected_lines:
+            speak_lines(detected_lines)
+        else:
+            print("No confident text detected.")
+
+# Function to monitor the button state
+def button_listener():
+    while True:
+        if GPIO.input(BUTTON_TEXT_PIN) == GPIO.HIGH:
+            text_reading_handler()
+            time.sleep(2)  # Debounce delay
+        time.sleep(0.1)
+
+# Start the button listener in a separate thread
+threading.Thread(target=button_listener, daemon=True).start()
+
+# Main program loop (for main camera)
+while True:
+    image = capture_image_from_cam(MAIN_CAM_URL)
+    if image is not None:
+        cv2.imshow("Main Camera Feed", image)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cv2.destroyAllWindows()
+GPIO.cleanup()
