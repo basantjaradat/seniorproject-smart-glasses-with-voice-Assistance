@@ -82,7 +82,8 @@ The smart glasses system performs:
 - Firebase for storage & real-time sync
 
 APK Download 👉 [Download here](https://drive.google.com/file/d/10aO4Wez3nkSgCMb6-xXFlDI-tKPxmDXx/view?usp=drive_link)
-📦 App Source Code 👉 [View Flutter App Repository](https://github.com/basantjaradat/smart-glasses-app)
+
+📦 App Source Code 👉 [View Flutter App Repository](https://github.com/basantjaradat/seniorproject-application)
 
 
 ## ✅ Project Goals
