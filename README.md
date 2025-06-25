@@ -15,7 +15,7 @@ Blind individuals face challenges navigating spaces and accessing information in
 
 The solution is focused on improving daily life and safety for the blind by combining embedded systems, machine learning, mobile development, and cloud integration.
 
----
+--
 
 ## 🧠 System Overview
 
@@ -28,7 +28,7 @@ The system consists of:
 - A Flutter mobile app for caregiver tracking and management
 - A Firebase backend for authentication and data storage
 
----
+--
 
 ## 🔧 Hardware Used
 
@@ -42,10 +42,9 @@ The system consists of:
 | Push Buttons (2)              | Triggering emergency and OCR features    |
 | Glasses Frame                 | Mounting all components comfortably      |
 
-🖼️ **Hardware Diagram Preview**  
-_Include the image file `hardware.png` here (replace with actual image)_
+![hardware](images/hardware.png)
 
----
+--
 
 ## 🛠️ Software Used
 
@@ -60,7 +59,7 @@ _Include the image file `hardware.png` here (replace with actual image)_
 | Teachable Machine    | Creating custom object detection models        |
 | PuTTY & VNC Viewer   | Raspberry Pi access and configuration          |
 
----
+--
 
 ## 🧱 Block Diagram
 
@@ -71,8 +70,6 @@ The smart glasses system performs:
 - Voice output to the user
 - Real-time syncing with Firebase
 - Alerts to the caregiver app when needed
-
-🖼️ _Replace with actual image of your block diagram and update path as needed._
 
 ---
 
@@ -86,7 +83,7 @@ The smart glasses system performs:
 
 APK Download 👉 [Download here]([https://drive.google.com/file/d/10aO4Wez3nkSgCMb6-xXFlDI-tKPxmDXx/view](https://drive.google.com/file/d/10aO4Wez3nkSgCMb6-xXFlDI-tKPxmDXx/view?usp=drive_link))
 
----
+--
 
 ## ✅ Project Goals
 
@@ -95,7 +92,7 @@ APK Download 👉 [Download here]([https://drive.google.com/file/d/10aO4Wez3nkSg
 - Provide emergency alerts and real-time voice assistance
 - Allow caregivers to track the user’s location and manage recognized faces
 
----
+--
 
 
 ## 🙋‍♀️ Team
@@ -104,7 +101,7 @@ APK Download 👉 [Download here]([https://drive.google.com/file/d/10aO4Wez3nkSg
 - **Maria Ghanem**  
 Supervised by: **Prof. Dr. Hazem Khanfar**
 
----
+--
 
 > 🎓 Senior Project (II) | Arab American University – 2024/2025
 
