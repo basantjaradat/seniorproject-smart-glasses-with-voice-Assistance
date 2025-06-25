@@ -83,7 +83,7 @@ The smart glasses system performs:
 
 APK Download 👉 [Download here](https://drive.google.com/file/d/10aO4Wez3nkSgCMb6-xXFlDI-tKPxmDXx/view?usp=drive_link)
 
-📦 App Source Code 👉 [View Flutter App Repository](https://github.com/basantjaradat/seniorproject-application)
+App Source Code 👉 [View Flutter App Repository](https://github.com/basantjaradat/seniorproject-application)
 
 
 ## ✅ Project Goals
