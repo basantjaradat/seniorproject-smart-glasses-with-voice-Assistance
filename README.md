@@ -43,7 +43,7 @@ The system consists of:
 | Glasses Frame                 | Mounting all components comfortably      |
 
 🖼️ **Hardware Diagram Preview**  
-_Include the image file `hardware_connection.jpg` here (replace with actual image)_
+_Include the image file `hardware.png` here (replace with actual image)_
 
 ---
 
@@ -97,17 +97,6 @@ APK Download 👉 [Download here]([https://drive.google.com/file/d/10aO4Wez3nkSg
 
 ---
 
-## 📷 Image Gallery
-
-| Description               | Preview                     |
-|--------------------------|-----------------------------|
-| System Prototype          | ![Prototype](images/prototype.jpg) |
-| Hardware Connection       | ![Connection](images/hardware.png) |
-| Application Interface     | ![App UI](images/app-ui.png) |
-
-_Replace the image paths with your actual project images._
-
----
 
 ## 🙋‍♀️ Team
 
